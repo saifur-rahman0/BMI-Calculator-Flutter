@@ -6,7 +6,7 @@ A simple and user-friendly Flutter application to calculate Body Mass Index (BMI
 ## Features
 
 *   **Splash Screen**: An initial screen displayed when the app starts.
-*   **User-Friendly Input**: Clear input fields for height (cm) and weight (kg).
+*   **User-Friendly Input**: Clear input fields for height and weight (kg).
 *   **BMI Calculation**: Accurately calculates BMI using the standard formula.
 *   **BMI Category**: Displays the category based on the calculated BMI:
     *   Underweight: BMI < 18.5
@@ -17,12 +17,6 @@ A simple and user-friendly Flutter application to calculate Body Mass Index (BMI
 *   **Ideal Weight Range**: Shows the healthy weight range for the user's height.
 *   **Dynamic Background**: The background color of the results area subtly changes based on the BMI category.
 
-## Screenshots
-
-*(Add your app screenshots here. For example:)*
-*   *(Screenshot of the Splash Screen)*
-*   *(Screenshot of the BMI Calculator input screen)*
-*   *(Screenshot of the BMI result with the range indicator)*
 
 ## Getting Started
 
