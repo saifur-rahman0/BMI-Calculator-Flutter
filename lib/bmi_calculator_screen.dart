@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bmi_calculator_flutter/bmi_range_indicator.dart'; // Import the separated widget
 
 class BMICalculatorScreen extends StatefulWidget {
   const BMICalculatorScreen({super.key});
@@ -16,6 +17,9 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
   Color bgColor = Colors.indigo.shade100; // Softer initial color
   String resultMessage = "";
   double bmiValue = 0.0;
+  double minIdealWeight = 0.0;
+  double maxIdealWeight = 0.0;
+  String idealWeightMessage = "";
 
   void _calculateBMI() {
     if (_formKey.currentState!.validate()) {
@@ -45,15 +49,28 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
             msg = "You are Underweight";
             tempBgColor = Colors.blue.shade300;
           }
+
+          minIdealWeight = 18.5 * (totalMeter * totalMeter);
+          maxIdealWeight = 24.9 * (totalMeter * totalMeter);
+          idealWeightMessage =
+              "For your height, a healthy weight range is ${minIdealWeight.toStringAsFixed(1)} kg - ${maxIdealWeight.toStringAsFixed(1)} kg.";
+
           setState(() {
             resultMessage = msg;
             result = "Your BMI is ${bmiValue.toStringAsFixed(2)}";
             bgColor = tempBgColor;
+            this.minIdealWeight = minIdealWeight;
+            this.maxIdealWeight = maxIdealWeight;
+            this.idealWeightMessage = idealWeightMessage;
           });
         } else {
           setState(() {
             resultMessage = "Height must be greater than 0.";
             result = "";
+            bmiValue = 0.0;
+            idealWeightMessage = "";
+            minIdealWeight = 0.0;
+            maxIdealWeight = 0.0;
             bgColor = Colors.grey.shade300;
           });
         }
@@ -62,6 +79,10 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
       setState(() {
         resultMessage = "Please fill all fields correctly.";
         result = "";
+        bmiValue = 0.0;
+        idealWeightMessage = "";
+        minIdealWeight = 0.0;
+        maxIdealWeight = 0.0;
         bgColor = Colors.grey.shade300;
       });
     }
@@ -118,7 +139,8 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your weight';
                           }
-                          if (double.tryParse(value) == null || double.parse(value) <= 0) {
+                          if (double.tryParse(value) == null ||
+                              double.parse(value) <= 0) {
                             return 'Please enter a valid weight';
                           }
                           return null;
@@ -140,7 +162,8 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter feet';
                           }
-                           if (double.tryParse(value) == null || double.parse(value) < 0) {
+                          if (double.tryParse(value) == null ||
+                              double.parse(value) < 0) {
                             return 'Please enter a valid value for feet';
                           }
                           return null;
@@ -182,7 +205,7 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        child: const Text("CALCULATE"),
+                        child: const Text("CALCULATE", style: TextStyle(color: Colors.white)),
                       ),
                       const SizedBox(height: 30),
                       if (resultMessage.isNotEmpty)
@@ -204,6 +227,23 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
                             color: Colors.grey.shade700,
                           ),
                           textAlign: TextAlign.center,
+                        ),
+                      const SizedBox(height: 15),
+                      if (bmiValue > 0 && result.isNotEmpty)
+                        BmiRangeIndicator(bmiValue: bmiValue),
+                      const SizedBox(height: 15),
+                      if (idealWeightMessage.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            idealWeightMessage,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.indigo.shade700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                     ],
                   ),
